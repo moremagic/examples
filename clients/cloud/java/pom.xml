@@ -24,7 +24,7 @@
     </description>
 
     <properties>
-        <java.version>8</java.version>
+        <java.version>17</java.version>
         <slf4j-api.version>1.7.6</slf4j-api.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <gson.version>2.2.4</gson.version>
@@ -54,6 +54,13 @@
       <pluginRepository>
         <id>confluent</id>
         <url>https://packages.confluent.io/maven/</url>
+      </pluginRepository>
+      <pluginRepository>
+        <id>central</id>
+        <url>http://repo1.maven.org/maven2/ </url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
       </pluginRepository>
     </pluginRepositories>
 
@@ -114,6 +121,11 @@
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
         </dependency>
+        <dependency>
+            <groupId>software.amazon.msk</groupId>
+            <artifactId>aws-msk-iam-auth</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -130,11 +142,20 @@
             </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
